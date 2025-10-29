@@ -1,0 +1,49 @@
+# materials.yaml
+# ------------------------------------------------------------
+# Material properties for structural, internal, and shielding components.
+# Units:
+#   - density_kg_per_m3:  kg/m³
+#   - specific_heat_J_per_kgK: J/(kg·K)
+#   - thermal_conductivity_W_per_mK: W/(m·K)
+# ------------------------------------------------------------
+
+version: 1
+notes: >
+  Reference material library for structural and internal systems.
+  Used to calculate mass, thermal inertia, and shielding performance.
+  Expand as the ship’s design matures.
+
+materials:
+  aluminum_alloy_6061:
+    density_kg_per_m3: 2700
+    specific_heat_J_per_kgK: 896
+    thermal_conductivity_W_per_mK: 167
+    yield_strength_MPa: 275
+    notes: "Common structural alloy; used for frame and bulkheads."
+
+  composite_carbon_polymer:
+    density_kg_per_m3: 1600
+    specific_heat_J_per_kgK: 1200
+    thermal_conductivity_W_per_mK: 5
+    yield_strength_MPa: 500
+    notes: "Lightweight hull panels and rotating components."
+
+  polyethylene_shield:
+    density_kg_per_m3: 950
+    specific_heat_J_per_kgK: 1900
+    thermal_conductivity_W_per_mK: 0.5
+    notes: "Hydrogen-rich; effective for cosmic radiation attenuation."
+
+  regolith_brick:
+    density_kg_per_m3: 2200
+    specific_heat_J_per_kgK: 840
+    thermal_conductivity_W_per_mK: 1.0
+    notes: "In-situ resource fabrication material."
+
+categories:
+  structural:
+    default_material: aluminum_alloy_6061
+  interior:
+    default_material: composite_carbon_polymer
+  radiation_shielding:
+    default_material: polyethylene_shield

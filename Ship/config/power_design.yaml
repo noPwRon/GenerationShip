@@ -1,0 +1,90 @@
+# power_design.yaml
+# ------------------------------------------------------------
+# Electrical generation, distribution, storage, and consumption.
+# All numeric values are initialized to 0 for setup and testing.
+# ------------------------------------------------------------
+
+version: 2
+notes: >
+  Unified power design model including both sources and sinks.
+  This version initializes all numeric values to zero.
+  Replace zeros with calculated or estimated design data as it becomes available.
+
+sources:
+  main_reactor:
+    type: fusion
+    generation_kW: 10
+    efficiency_percent: 0
+    redundancy: 0
+    voltage_level: 0s
+    notes: "Primary continuous output."
+
+  auxiliary_array:
+    type: solar
+    generation_kW: 0
+    efficiency_percent: 0
+    redundancy: 0
+    voltage_level: 0
+    notes: "Supplemental generation."
+
+storage:
+  battery_bank:
+    type: storage
+    storage_kWh: 0
+    discharge_rate_kW: 0
+    charge_efficiency_percent: 0
+    discharge_efficiency_percent: 0
+    voltage_level: 0
+    notes: "Acts as both sink (charging) and source (discharging)."
+
+  emergency_fuel_cell:
+    type: chemical
+    generation_kW: 0
+    efficiency_percent: 0
+    redundancy: 0
+    notes: "Backup supply for life-support continuity."
+
+sinks:
+  life_support:
+    consumption_kW: 0
+    redundancy: 0
+    voltage_level: 0
+    notes: "Air revitalization and life-support core."
+
+  propulsion_control:
+    consumption_kW: 0
+    redundancy: 0
+    voltage_level: 0
+    notes: "Navigation and thrust vectoring control systems."
+
+  habitation_lighting:
+    consumption_kW_per_m2: 0
+    area_m2_estimate: 0
+    voltage_level: 0
+    notes: "Distributed lighting and communal electronics."
+
+  hvac_thermal:
+    consumption_kW_per_person: 0
+    occupants_estimate: 0
+    voltage_level: 0
+    notes: "Thermal management and air movement."
+
+  computing_core:
+    consumption_kW: 0
+    redundancy: 0
+    voltage_level: 0
+    notes: "Main AI and control systems."
+
+  agriculture_bay:
+    consumption_kW: 0
+    voltage_level: 0
+    notes: "Lighting and nutrient synthesis."
+
+distribution:
+  backbone_voltage: 0
+  secondary_voltage: 0
+  redundancy: 0
+  losses_percent: 0
+  control_strategy: "priority_load_shedding"
+  notes: >
+    Power distribution baseline. Replace zeros as design data becomes available.

@@ -1,0 +1,77 @@
+# hvac_design.yaml
+# ------------------------------------------------------------
+# Environmental load and ventilation data for all habitable spaces.
+# Units:
+#   - sensible_W_per_person:  W/person
+#   - latent_W_per_person:    W/person
+#   - Rp_Lps_per_person:      L/s-person (outdoor air per person)
+#   - Ra_Lps_per_m2:          L/s-m2     (outdoor air per floor area)
+#   - exhaust:                L/s-m2 or L/s per fixture, depending on space
+# ------------------------------------------------------------
+
+version: 1
+notes: >
+  Default HVAC and metabolic load reference table.
+  Derived from ASHRAE 62.1 ventilation requirements and IESVE internal gain data.
+  Update with empirical ship values once environmental controls are tuned.
+
+defaults:
+  activity_levels:
+    rest:
+      sensible_W_per_person: 80    # seated/sleeping
+      latent_W_per_person: 35
+    light_work:
+      sensible_W_per_person: 110
+      latent_W_per_person: 60
+    moderate_work:
+      sensible_W_per_person: 150
+      latent_W_per_person: 130
+  ventilation:
+    Rp_Lps_per_person: 2.5         # default outdoor air per person
+    Ra_Lps_per_m2: 0.3             # default outdoor air per area
+
+rooms:
+  dorm:
+    activity_map:
+      rest: {}
+    ventilation:
+      Rp_Lps_per_person: 2.5
+      Ra_Lps_per_m2: 0.3
+
+  mess_hall:
+    activity_map:
+      light_work: {}
+    ventilation:
+      Rp_Lps_per_person: 3.8
+      Ra_Lps_per_m2: 0.9
+
+  command_deck:
+    activity_map:
+      light_work: {}
+    ventilation:
+      Rp_Lps_per_person: 2.5
+      Ra_Lps_per_m2: 0.3
+
+  intimacy_pod:
+    activity_map:
+      moderate_work: {}
+    ventilation:
+      Rp_Lps_per_person: 2.5
+      Ra_Lps_per_m2: 0.3
+
+  lab:
+    activity_map:
+      moderate_work: {}
+    exhaust:
+      Re_Lps_per_m2: 5.0           # exhaust-driven (1 cfm/ft²)
+
+  hygiene_block:
+    activity_map:
+      moderate_work: {}
+    lockers:
+      exhaust:
+        Reee_Lps_per_m2: 2.0
+    showers:
+      exhaust:
+        per_shower_Lps_continuous: 10
+        per_shower_Lps_intermittent: 25

@@ -10,17 +10,19 @@ Responsibilities:
 """
 
 from typing import Dict, Type
+
 # Import core definitions
 from Ship.rooms.base import RoomCalculator, RoomSpec, RoomReport
+
 # Import known room calculators
-from Ship.rooms.dorm_communal_8 import DormCommunal8
+from Ship.rooms.child_dorm_8 import child_dorm_8
 from Ship.rooms.hygiene_block import HygieneBlock
 from Ship.rooms.intimacy_pod import IntimacyPod
 
 
 # --- Registry of room modules ------------------------------------------------
 REGISTRY: Dict[str, Type[RoomCalculator]] = {
-    DormCommunal8.TYPE_ID: DormCommunal8,
+    child_dorm_8.TYPE_ID: child_dorm_8,
     HygieneBlock.TYPE_ID: HygieneBlock,
     IntimacyPod.TYPE_ID: IntimacyPod,
 }
