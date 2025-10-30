@@ -1,0 +1,13 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Treat YAML as text; keep diffs readable
+*.yaml text
+*.yml  text
+
+# Prefer histogram diff algorithm for large YAML files (requires local git config support)
+# If your Git doesn't pick this up, consider running: git config diff.yaml.algorithm histogram
+*.yaml diff=yaml
+
+# Mark generated artifacts (if any) as linguist‑generated (GitHub UI)
+# docs/_build/* linguist-generated
