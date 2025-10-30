@@ -74,7 +74,7 @@ _templates:
 """
 
 # Save YAML file for local download
-file_path = Path("/mnt/data/Generation_Ship_Equipment_v0.4.yaml")
+file_path = Path("/mnt/data/equipment_specs.yaml")
 file_path.write_text(equipment_yaml)
 
 file_path
