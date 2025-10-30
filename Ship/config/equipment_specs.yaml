@@ -1,0 +1,80 @@
+from pathlib import Path
+
+# YAML content for Generation Ship equipment specification v0.4
+equipment_yaml = """# Generation Ship — Equipment Specifications (Simplified v0.4)
+# Generic equipment list with categories; expandable to all ship systems.
+
+meta:
+  schema_version: 0.4
+  notes:
+    - Each equipment item must include at least one category.
+    - Categories are hierarchical using slash notation (e.g., "medical/incubator").
+
+categories:
+  medical:
+    description: "Clinical and patient-care devices."
+    subcategories: [incubator, crib, monitor, phototherapy, warmer]
+  furniture:
+    description: "Non-powered furnishings for caregiving and support."
+    subcategories: [cart, cabinet, chair, table]
+  utilities:
+    description: "Power, gases, plumbing, and related infrastructure."
+    subcategories: [electrical_panel, ups, gas_outlet, suction]
+  it_network:
+    description: "Networking and communication equipment."
+    subcategories: [switch, access_point, server, workstation]
+  hvac:
+    description: "Environmental control components."
+    subcategories: [air_handler, diffuser, sensor]
+
+# --- Equipment (examples) ---
+
+equipment:
+  incubator:
+    category: ["medical", "medical/incubator"]
+    description: "Hospital-grade neonatal incubator with integrated temperature control."
+    dimensions_mm: {length: 1200, width: 700, height: 1400}
+    weight_kg: 140
+    clearance_mm: {sides: 700, head: 700, overhead: 800}
+    electrical: {voltage_v: 230, frequency_hz: 50, max_power_w: 700}
+    heat_load_w: 700
+    communications: [ethernet]
+
+  crib:
+    category: ["medical", "medical/crib"]
+    description: "Mechanical neonatal crib; no integrated heating."
+    dimensions_mm: {length: 1120, width: 760, height: 1980}
+    weight_kg: 110
+    clearance_mm: {sides: 600, head: 600, overhead: 600}
+    electrical: {voltage_v: null, max_power_w: 0}
+    heat_load_w: 0
+    communications: []
+
+  monitor:
+    category: ["medical", "medical/monitor"]
+    description: "Neonatal vital signs monitor (HR, SpO2, respiration, temp)."
+    dimensions_mm: {length: 120, width: 360, height: 300}
+    weight_kg: 6.5
+    clearance_mm: {sides: 100, overhead: 300}
+    electrical: {voltage_v: 230, max_power_w: 120}
+    heat_load_w: 120
+    communications: [ethernet, wifi]
+
+# --- Template for adding more equipment ---
+_templates:
+  equipment_item:
+    category: ["<top>", "<top/sub>"]
+    description: "<what it is>"
+    dimensions_mm: {length: 0, width: 0, height: 0}
+    weight_kg: 0
+    clearance_mm: {sides: 0, head: 0, overhead: 0}
+    electrical: {voltage_v: null, frequency_hz: null, max_power_w: 0}
+    heat_load_w: 0
+    communications: []
+"""
+
+# Save YAML file for local download
+file_path = Path("/mnt/data/Generation_Ship_Equipment_v0.4.yaml")
+file_path.write_text(equipment_yaml)
+
+file_path
