@@ -35,43 +35,53 @@ rooms:
     activity_map:
       rest: {}
     ventilation:
-      Rp_Lps_per_person: 2.5
-      Ra_Lps_per_m2: 0.3
+      Rp_Lps_per_person: 2.5       # 5 cfm/person (multi-family sleeping rooms)
+      Ra_Lps_per_m2: 0.3           # 0.06 cfm/ft2 (sleeping rooms)
 
   mess_hall:
     activity_map:
       light_work: {}
     ventilation:
-      Rp_Lps_per_person: 3.8
-      Ra_Lps_per_m2: 0.9
+      Rp_Lps_per_person: 3.5       # 7.5 cfm/person (dining areas)
+      Ra_Lps_per_m2: 0.9           # 0.18 cfm/ft2 (dining areas)
 
   command_deck:
     activity_map:
       light_work: {}
     ventilation:
-      Rp_Lps_per_person: 2.5
-      Ra_Lps_per_m2: 0.3
+      Rp_Lps_per_person: 2.5       # 5 cfm/person (office spaces)
+      Ra_Lps_per_m2: 0.3           # 0.06 cfm/ft2 (office spaces)
 
   intimacy_pod:
     activity_map:
       moderate_work: {}
     ventilation:
-      Rp_Lps_per_person: 2.5
-      Ra_Lps_per_m2: 0.3
+      Rp_Lps_per_person: 2.5       # 5 cfm/person (private bedrooms)
+      Ra_Lps_per_m2: 0.3           # 0.06 cfm/ft2 (private bedrooms)
+
+  warehouse:
+    activity_map:
+      moderate_work: {}
+    ventilation:
+      Rp_Lps_per_person: 0.03      # 0.06 cfm/person (storage/warehouse)
+      Ra_Lps_per_m2: 0.3           # 0.06 cfm/ft2 (storage/warehouse)
 
   lab:
     activity_map:
       moderate_work: {}
+    ventilation:
+      Rp_Lps_per_person: 4.7       # 10 cfm/person (laboratories, non-surgical)
+      Ra_Lps_per_m2: 0.9           # 0.18 cfm/ft2 (laboratories, non-surgical)
     exhaust:
-      Re_Lps_per_m2: 5.0           # exhaust-driven (1 cfm/ft²)
+      Re_Lps_per_m2: 5.1           # 1.0 cfm/ft2 exhaust baseline
 
   hygiene_block:
     activity_map:
       moderate_work: {}
-    lockers:
-      exhaust:
-        Reee_Lps_per_m2: 2.0
-    showers:
-      exhaust:
-        per_shower_Lps_continuous: 10
-        per_shower_Lps_intermittent: 25
+    ventilation:
+      Rp_Lps_per_person: 4.7       # 10 cfm/person (locker rooms)
+      Ra_Lps_per_m2: 2.5           # 0.5 cfm/ft2 (locker rooms)
+    exhaust:
+      Re_Lps_per_m2: 3.8                 # 0.75 cfm/ft2 (showers/locker rooms)
+      per_shower_Lps_continuous: 9.4     # 20 cfm/shower (continuous exhaust)
+      per_shower_Lps_intermittent: 23.6  # 50 cfm/shower (intermittent boost)

@@ -10,7 +10,7 @@ from typing import Any, Dict
 
 from env.hvac import calc_env
 from env.hvac.calc_tables import get_rates
-from env.rooms.base import RoomCalculator, RoomReport, RoomSpec
+from env.rooms.base import RoomCalculator, RoomReport, RoomSpec, ReportBuilder
 
 
 class HygieneBlock(RoomCalculator):
@@ -30,7 +30,7 @@ class HygieneBlock(RoomCalculator):
 
     @staticmethod
     def compute(spec: RoomSpec) -> RoomReport:
-        rates = get_rates("hygiene_block", activity="moderate_work")
+        rates = get_rates("HygieneBlock", activity="moderate_work")
 
         ventilation_lps = calc_env.ventilation_rate(
             occupants=spec.occupants,
@@ -42,27 +42,19 @@ class HygieneBlock(RoomCalculator):
             area_m2=spec.floor_area_m2, exhaust_info=rates.get("exhaust")
         )
 
-        geometry: Dict[str, float] = {
-            "floor_area_m2": spec.floor_area_m2,
-            "height_m": spec.height_m,
-            "volume_m3": spec.floor_area_m2 * spec.height_m,
-        }
-        hvac: Dict[str, Any] = {
-            "ventilation_Lps": ventilation_lps,
-            "exhaust_Lps": exhaust_lps,
-        }
-        placeholder: Dict[str, Any] = {}
-
-        return RoomReport(
-            type_id=HygieneBlock.TYPE_ID,
-            name=spec.name,
-            geometry=geometry,
-            mass_kg=placeholder,
-            electrical_kW=placeholder,
-            hvac=hvac,
-            water_L_per_day=placeholder,
-            waste_L_per_day=placeholder,
-            safety=placeholder,
-            schematics={},
-            metadata={"phase": spec.phase},
+        report = (
+            ReportBuilder(HygieneBlock.TYPE_ID, spec.name)
+            .geom(
+                floor_area_m2=spec.floor_area_m2,
+                height_m=spec.height_m,
+                volume_m3=spec.floor_area_m2 * spec.height_m,
+            )
+            .hvac(
+                ventilation_Lps=ventilation_lps,
+                exhaust_Lps=exhaust_lps,
+            )
+            .meta(phase=spec.phase)
+            .build()
         )
+
+        return report

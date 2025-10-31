@@ -10,7 +10,7 @@ from typing import Any, Dict
 
 from env.hvac import calc_env
 from env.hvac.calc_tables import get_rates
-from env.rooms.base import RoomCalculator, RoomReport, RoomSpec
+from env.rooms.base import RoomCalculator, RoomReport, RoomSpec, ReportBuilder
 
 
 class ChildDorm8(RoomCalculator):
@@ -47,38 +47,24 @@ class ChildDorm8(RoomCalculator):
             latent_W=rates["activity"]["latent_W_per_person"],
         )
 
-        geometry: Dict[str, float] = {
-            "floor_area_m2": spec.floor_area_m2,
-            "height_m": spec.height_m,
-            "volume_m3": spec.floor_area_m2 * spec.height_m,
-        }
-
-        hvac: Dict[str, Any] = {
-            "ventilation_Lps": ventilation_lps,
-            "sensible_load_kW": sensible_kW,
-            "latent_load_kW": latent_kW,
-        }
-        electrical_kW: Dict[str, float] = {}
-        water_per_day: Dict[str, float] = {}
-        waste_per_day: Dict[str, float] = {}
-        mass_kg: Dict[str, float] = {}
-        safety: Dict[str, Any] = {}
-        schematics: Dict[str, str] = {}
-        metadata: Dict[str, Any] = {"phase": spec.phase}
-
-        return RoomReport(
-            type_id=ChildDorm8.TYPE_ID,
-            name=spec.name,
-            geometry=geometry,
-            mass_kg=mass_kg,
-            electrical_kW=electrical_kW,
-            hvac=hvac,
-            water_L_per_day=water_per_day,
-            waste_L_per_day=waste_per_day,
-            safety=safety,
-            schematics=schematics,
-            metadata=metadata,
+        report = (
+            ReportBuilder(ChildDorm8.TYPE_ID, spec.name)
+            .geom(
+                floor_area_m2=spec.floor_area_m2,
+                height_m=spec.height_m,
+                volume_m3=spec.floor_area_m2 * spec.height_m,
+            )
+            .hvac(
+                ventilation_Lps=ventilation_lps,
+                sensible_load_kW=sensible_kW,
+                latent_load_kW=latent_kW,
+                # TODO add supply/exhaust split if/when modeled
+            )
+            .meta(phase=spec.phase)
+            .build()
         )
+
+        return report
 
 
 # Backwards compatibility alias for earlier imports
