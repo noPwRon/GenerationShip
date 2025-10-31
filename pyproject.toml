@@ -1,0 +1,5 @@
+[project]
+name = "generation-ship"
+version = "0.1.0"
+description = "Conceptual systems model skeleton for a generation ship"
+requires-python = ">=3.11"

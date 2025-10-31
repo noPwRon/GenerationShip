@@ -1,0 +1,15 @@
+# Nominal mission profile describing the minimum sustaining crew.
+version: 1
+crew:
+  adults: 24
+  adolescents: 12
+  children: 18
+shift_structure:
+  - name: alpha
+    duration_hours: 8
+  - name: bravo
+    duration_hours: 8
+  - name: gamma
+    duration_hours: 8
+notes: |
+  Populations and shift durations are placeholders used for load sizing.

@@ -1,0 +1,13 @@
+# Draft bus layout for system integration exercises.
+version: 0
+backbone_voltage_kV: 11
+secondary_voltage_kV: 0.48
+feeders:
+  life_support:
+    breaker_rating_A: 400
+    redundancy: n+1
+  habitation:
+    breaker_rating_A: 250
+    redundancy: n
+notes: |
+  Placeholder values until electrical team provides final single-line diagram.

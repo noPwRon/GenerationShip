@@ -1,5 +1,5 @@
 # ---- Generation Ship: Python project .gitignore ----
-# Place this file at the repository root (same level as Ship/ and README.md).
+# Place this file at the repository root.
 
 # --- Python bytecode & caches ---
 __pycache__/
@@ -99,7 +99,6 @@ pnpm-debug.log
 # --- Keep these tracked even if parent dirs are ignored ---
 !.gitkeep
 README.md
-Ship/**
 
 # ------------------------------------------------------
 # Tips:

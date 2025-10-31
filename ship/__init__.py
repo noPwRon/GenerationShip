@@ -1,14 +1,9 @@
 """
-Ship package initializer
--------------------------
-This file designates the 'Ship' directory as a Python package.
-
-Future usage:
-    - High-level system initialization
-    - Global state configuration (logging, simulation flags)
-    - Aggregating subpackages such as propulsion, habitat, etc.
-
-Currently exposes the registry for convenience.
+ship package
+-------------
+Package namespace for top-level registry utilities.
 """
 
-from . import registry  # Expose top-level access to the registry
+from ship.registry import compute
+
+__all__ = ["compute"]

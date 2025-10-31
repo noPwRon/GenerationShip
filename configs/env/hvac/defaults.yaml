@@ -1,0 +1,15 @@
+# Runtime HVAC defaults loaded at startup.
+version: 1
+ventilation:
+  Rp_Lps_per_person: 2.5
+  Ra_Lps_per_m2: 0.3
+activity_levels:
+  rest:
+    sensible_W_per_person: 80
+    latent_W_per_person: 35
+  light_work:
+    sensible_W_per_person: 110
+    latent_W_per_person: 60
+  moderate_work:
+    sensible_W_per_person: 150
+    latent_W_per_person: 130

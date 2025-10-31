@@ -1,0 +1,45 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Generation Ship Equipment Catalog"
+type: object
+required:
+  - equipment
+properties:
+  version:
+    type: integer
+    minimum: 0
+  notes:
+    type: string
+  equipment:
+    type: object
+    additionalProperties:
+      type: object
+      required:
+        - category
+        - description
+        - dimensions_mm
+        - weight_kg
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        dimensions_mm:
+          type: object
+          additionalProperties:
+            type: number
+        weight_kg:
+          type: number
+          minimum: 0
+        clearance_mm:
+          type: object
+          additionalProperties:
+            type: number
+        electrical:
+          type: object
+        heat_load_w:
+          type: number
+        communications:
+          type: array
+          items:
+            type: string
+additionalProperties: false
