@@ -1,17 +1,29 @@
-# TODO: Flesh out a runnable life-support scenario that references the air cycle design.
-scenario:
-  id: TODO-fill
-  name: TODO: scenario label
-  description: TODO: summarize mission profile and assumptions
+zones:
+  - name: "Hab A"
+    volume_m3: 400
+    gas:
+      O2: 0.21
+      CO2: 0.004
+      N2: 0.786
+      pressure_Pa: 101325
+      temperature_K: 295
+      humidity_frac: 0.5
 
-design_paths:
-  base_spec: data/specs/air_cycle_design.yaml
-  overrides: configs/life_support/air_cycle_overrides.yaml
+modules:
+  - type: plant_canopy
+    footprint_m2: 40
+    design_ref: canopy.default
+  - type: algae_pbr
+    illuminated_area_m2: 12
+    depth_m: 0.05
+    design_ref: pbr.default
+  - type: co2_scrubber
+    tech: amine
+    design_ref: scrubber.amine_v0
+  - type: electrolyzer
+    design_ref: electrolyzer.oga_like
 
-simulation:
-  horizon_days: null         # TODO: define simulation duration
-  timestep_hours: null       # TODO: define timestep resolution
-  crew_manifest: []          # TODO: reference crew profiles if available
-
-notes: |
-  TODO: Capture links to validation datasets and any scenario-specific caveats.
+control:
+  targets:
+    O2_frac: 0.21
+    CO2_frac_max: 0.005
