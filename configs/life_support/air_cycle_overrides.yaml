@@ -1,0 +1,17 @@
+# TODO: Populate scenario-specific overrides for the air cycle design baseline.
+scenario_id: TODO-fill
+metadata:
+  title: TODO: short scenario name
+  author: TODO: owner or team
+  last_updated: TODO: YYYY-MM-DD
+
+overrides:
+  canopy: {}        # TODO: override canopy parameters as needed
+  pbr: {}           # TODO: override photobioreactor parameters as needed
+  crew: {}          # TODO: override crew metabolic assumptions as needed
+  scrubber: {}      # TODO: override scrubber capacities or tech
+  electrolyzer: {}  # TODO: override electrolyzer sizing
+  buffers: {}       # TODO: override storage buffers
+
+notes: |
+  TODO: Document rationale for each override and cite supporting references.
