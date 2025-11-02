@@ -1,48 +1,48 @@
-# TODO: Populate canonical life-support air cycle defaults with vetted values.
-version: 0
-notes: |
-  TODO: Capture literature-sourced baseline performance data for each subsystem.
-
 canopy:
-  O2_g_per_m2_h: null        # TODO: replace with canopy productivity baseline
-  CO2_g_per_m2_h: null       # TODO: replace with canopy uptake baseline
-  PAR_umol_m2_s: null        # TODO: define required lighting intensity
-  power_W_per_m2: null       # TODO: estimate lighting power density
-  citations: []              # TODO: list supporting references
+  O2_g_per_m2_h: null        # TODO: fill from Wheeler/CELSS paper
+  CO2_g_per_m2_h: null       # TODO: ditto
+  PAR_umol_m2_s: null        # TODO: your lighting design
+  power_W_per_m2: null
+  citations:
+    - "Wheeler RM, Adv. Space Res., YYYY, DOI:…"
   notes: []
 
 pbr:
-  O2_mmol_per_L_h: null      # TODO: algae reactor oxygen output
-  biomass_g_per_L_d: null    # TODO: biomass growth rate
-  optical_depth_m: null      # TODO: reactor optical path length
-  illuminated_area_m2: null  # TODO: illuminated surface area
-  mixing_W_per_m3: null      # TODO: mixing power density
-  citations: []
+  O2_mmol_per_L_h: null      # TODO: Detrell 2021
+  biomass_g_per_L_d: null
+  optical_depth_m: null
+  illuminated_area_m2: null
+  mixing_W_per_m3: null
+  citations:
+    - "Detrell G, 2021, Frontiers…"
   notes: []
 
 crew:
-  O2_g_per_person_h: null    # TODO: nominal crew O2 consumption
-  CO2_g_per_person_h: null   # TODO: nominal crew CO2 production
-  activity_profile: {}       # TODO: map activity level to duty cycle
-  citations: []
+  O2_g_per_person_h: null    # TODO: NASA-STD-3001 Vol.2
+  CO2_g_per_person_h: null
+  activity_profile: {}
+  citations:
+    - "NASA-STD-3001 Vol.2"
   notes: []
 
 scrubber:
-  tech: amine                # TODO: confirm default scrubber technology
-  capacity_CO2_kg: null      # TODO: CO2 capacity per cartridge/batch
-  regen_power_W: null        # TODO: regeneration power draw
-  citations: []
+  tech: "amine"
+  capacity_CO2_kg: null
+  regen_power_W: null
+  citations:
+    - "ISS CDRA tech report"
   notes: []
 
 electrolyzer:
-  O2_kg_per_h: null          # TODO: electrolyzer throughput
-  power_kW: null             # TODO: electrical demand at rated throughput
-  water_kg_per_h: null       # TODO: water consumption
-  citations: []
+  O2_kg_per_h: null
+  power_kW: null
+  water_kg_per_h: null
+  citations:
+    - "ISS OGA documentation"
   notes: []
 
 buffers:
-  O2_storage_kg: null        # TODO: stored oxygen inventory
-  CO2_storage_kg: null       # TODO: stored carbon dioxide inventory
+  O2_storage_kg: null
+  CO2_storage_kg: null
   citations: []
   notes: []
