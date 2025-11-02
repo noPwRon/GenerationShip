@@ -1,0 +1,29 @@
+# crew_profile.yaml
+# -----------------
+# Crew counts, activity distribution, and special operating phases.
+# Used by air_cycle_design.estimate_crew_gas_budget() to derive daily O2/CO2 demand.
+
+crew_count_total: 0  # TODO: number of active humans aboard (baseline crew)
+
+activity_profile:
+  # Fractions of a 24-hour day or normalized proportions (sum ≈ 1.0)
+  sleep: null          # TODO: fraction of day (e.g., 0.33)
+  light_work: null     # TODO: fraction of day (desk/maintenance)
+  exercise: null       # TODO: fraction of day (scheduled physical training)
+  heavy_work: null     # TODO: optional (EVA prep, manual labor)
+  off_duty: null       # TODO: leisure, reduced activity
+  # TODO: add more categories as needed (e.g., medical, EVA recovery)
+
+special_phases:
+  EVA_days_per_year: null         # TODO: number of EVA days per person per year
+  quarantine_days_per_year: null  # TODO: number of days under isolation
+  illness_fraction: null          # TODO: fraction of time with reduced capacity
+  demographics:                   # optional, for long-term balance
+    children_frac: null
+    adults_frac: null
+    elders_frac: null
+
+notes:
+  - "TODO: cite NASA-STD-3001 Vol. 2 for metabolic O2 consumption / CO2 production."
+  - "TODO: list assumptions for crew age, size, and daily schedule."
+  - "TODO: link each activity level to HVAC/activity rate table keys (rest, light_work, etc.)."

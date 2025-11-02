@@ -1,0 +1,32 @@
+# targets.yaml
+# -------------
+# Environmental policy targets for cabin atmosphere and storage buffers.
+# Used by air_cycle_design.AtmosphereTargets and downstream planners.
+
+O2_fraction_target: null     # TODO: nominal atmospheric oxygen fraction (e.g., 0.21)
+O2_fraction_min: null        # TODO: lower bound for safe operation
+O2_fraction_max: null        # TODO: upper bound (fire risk threshold)
+CO2_ppm_max: null            # TODO: maximum acceptable CO2 concentration (e.g., 5000 ppm)
+buffer_days_O2: null         # TODO: number of days of O2 reserve desired (e.g., 3–7)
+buffer_days_CO2: null        # TODO: number of days of CO2 absorption reserve
+design_time_horizon_days: null  # TODO: time window for design basis (e.g., 30 days, 1 year)
+
+safety_margins:
+  O2_generation_margin: null    # TODO: percentage buffer for O2 production (e.g., +10%)
+  CO2_scrubbing_margin: null    # TODO: percentage buffer for CO2 removal
+  power_margin: null            # TODO: added power availability for life support contingencies
+
+emergency_profiles:
+  # optional definitions of degraded or emergency modes
+  blackout_mode:
+    duration_hours: null        # TODO: time system must survive without power
+    allowable_O2_drop: null
+    allowable_CO2_rise: null
+  fire_mode:
+    response_minutes: null      # TODO: max time to return to breathable air levels
+    notes: []
+
+notes:
+  - "TODO: cite NASA ECLSS and ASHRAE guidance on acceptable CO2 ppm limits."
+  - "TODO: reference mission design criteria or internal ship policy for buffer days."
+  - "TODO: specify any derating factors for long-duration missions (aging systems, fouling)."
