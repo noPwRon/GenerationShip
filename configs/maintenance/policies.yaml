@@ -1,0 +1,31 @@
+# Preventive Maintenance (PM), Corrective Maintenance (CM), and End-of-Life (EOL) templates.
+
+pm_templates:
+  air_handler_pm_v1:
+    applies_to: ["air_handler"]
+    interval_hours: null               # TODO: maintenance interval
+    steps: ["inspect_filters", "clean_impeller", "lubricate_motor"]
+    required_parts:
+      bearing_6001: 2
+    required_skills: ["tech_env_lvl1"]
+    downtime_hours: null
+    citations:
+      - "TODO: vendor maintenance manual"
+
+eol_routes:
+  air_handler_refurb_v1:
+    applies_to: ["air_handler"]
+    route: "refurb"
+    outputs:
+      refurb:
+        new_equipment_id: "air_handler_refurb"
+        expected_life_hours: null
+    constraints: ["no_housing_cracks", "motor_rewinding_possible"]
+    citations:
+      - "TODO: refurb SOP for HVAC components"
+
+skills_matrix:
+  tech_env_lvl1:
+    description: "Environmental technician, HVAC basic maintenance"
+    training_hours: null
+    certs: []

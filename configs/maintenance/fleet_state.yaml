@@ -1,0 +1,18 @@
+# Installed equipment fleet — links directly to data/specs/equipment_specs.yaml
+
+fleet:
+  - serial: "HVAC-001-A"
+    equipment_id: "air_handler"         # key from equipment_specs.yaml
+    location: "Hab A / Deck 2 / Bay 4"
+    install_date: "YYYY-MM-DD"
+    hours_run: null                     # TODO: runtime counter
+    starts_count: null
+    condition_code: "A"                 # enum: A (good), B (worn), C (degraded), D (failed)
+    fault_flags: []                     # e.g., ["bearing_vibration", "motor_temp_high"]
+    maintenance_log:
+      - date: "YYYY-MM-DD"
+        action: "install"
+        notes: "Initial installation."
+    provenance:
+      role: "new"                       # or "refurbished" / "repurposed"
+      source_serial: null

@@ -1,0 +1,21 @@
+# Spares, parts, and recycling summary (linked by equipment_id).
+
+spares:
+  air_handler:
+    qty: 1
+    shelf: "HVAC-A2"
+  monitor:
+    qty: 3
+    shelf: "MED-C1"
+
+parts:
+  bearing_6001:
+    qty: 20
+    shelf: "PARTS-B1"
+
+scrap:
+  copper_kg: 0.0
+  steel_kg: 0.0
+
+recyclables:
+  polymer_kg: 0.0
