@@ -37,8 +37,8 @@ from dataclasses import dataclass, field, asdict
 from typing import Dict, Any, Optional, List, Tuple
 
 # --- Loader hooks (STUBS; replace via data/loader.py) ------------------------
-try:
-    from data.loader import load_yaml, dump_yaml, merge_dicts  # type: ignore
+
+from data.loader import load_yaml, dump_yaml, merge_dicts  # type: ignore
 
 
 # --- Input containers (NO MATH) ----------------------------------------------

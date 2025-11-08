@@ -1,0 +1,51 @@
+# Policies, safety factors, and layout preferences for structure.
+# Fusion-aligned: includes reactor bay integration policies.
+
+safety_factors:
+  yield: null            # TODO
+  ultimate: null
+  buckling: null
+  fatigue: null
+  joints_efficiency_min: null
+
+member_families:
+  rings:
+    default_material: "Al2219-T87"   # key into materials book
+    sections: []                     # e.g., ["I_web_200", "box_120x60x4"]
+  stringers:
+    default_material: "CFRP_UD"
+    sections: []
+  skins:
+    default_material: "Al2219-T87"
+    min_thickness_mm: null
+  bulkheads:
+    default_material: "Al2219-T87"
+    concepts: []
+
+segmentation:
+  frame_spacing_m: null
+  ring_pitch_m: null
+  stringer_pitch_m: null
+  bulkhead_pitch_m: null
+
+joints:
+  philosophy: null        # "riveted", "welded", "bonded", "hybrid"
+  fastener_family: null
+  adhesive_family: null
+
+notes:
+  - "TODO: cite structural design bases and company/mission policy."
+
+# --- Fusion reactor bay policies ---
+reactor_bay:
+  radiation_exclusion_zones:
+    - id: "reactor_cone"
+      geometry: "TODO"
+  allowable_thermal_growth_mm: null
+  inspection_clearances_mm:
+    service: null
+    removal: null
+  joints_philosophy: "TODO"   # e.g., "bolted + expansion joints", "sliding shoes"
+  materials_preference: ["NiAlloy_HighT_placeholder", "Ti6Al4V"]
+  citations:
+    - "TODO: reactor integration guidelines"

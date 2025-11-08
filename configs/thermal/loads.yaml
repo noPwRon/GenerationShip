@@ -1,0 +1,64 @@
+# Heat sources/sinks with duty profiles (no math).
+# Fusion-aligned: includes reactor reject heat and related auxiliaries.
+
+sources:
+  - id: "fusion_core_reject_highT"
+    service: "Reactor"
+    fluid: "CO2"                 # high-temperature loop candidate
+    intent_kW: null              # TODO: steady reject heat
+    duty_profile: "24x7"
+    cleanliness: "reactor_zone"
+    contamination_rules: ["isolate_from_potable"]
+    max_delta_p_kPa: null
+    notes: ["TODO: map to HEX high-T radiators"]
+
+  - id: "magnetic_nozzle_power_electronics"
+    service: "Propulsion"
+    fluid: "water"
+    intent_kW: null
+    duty_profile: "burn_only"
+    cleanliness: "clean"
+    contamination_rules: []
+    max_delta_p_kPa: null
+    notes: []
+
+  - id: "reactor_pump_skids"
+    service: "Reactor"
+    fluid: "water"
+    intent_kW: null
+    duty_profile: "24x7"
+    cleanliness: "clean"
+    contamination_rules: []
+    max_delta_p_kPa: null
+    notes: ["Ancillary pumps/electronics heat"]
+
+sinks:
+  - id: "radiator_panel_loop_highT"
+    service: "Radiation"
+    fluid: "CO2"
+    intent_kW: null
+    duty_profile: "24x7"
+    cleanliness: "clean"
+    contamination_rules: []
+    max_delta_p_kPa: null
+    notes: ["High-emissivity panel field"]
+
+  - id: "domestic_preheat_cascade"
+    service: "HVAC/DHW"
+    fluid: "water"
+    intent_kW: null
+    duty_profile: "daytime"
+    cleanliness: "potable"
+    contamination_rules: ["double_wall_required_for_potable"]
+    max_delta_p_kPa: null
+    notes: ["Use reactor waste heat via double-wall HX if policy allows"]
+
+  - id: "shield_water_buffer_preheat"
+    service: "Shielding"
+    fluid: "water"
+    intent_kW: null
+    duty_profile: "24x7"
+    cleanliness: "clean"
+    contamination_rules: []
+    max_delta_p_kPa: null
+    notes: ["Optional: use shield water mass as low-grade heat sink"]

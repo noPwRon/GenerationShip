@@ -1,22 +1,18 @@
 """
-demo.py
---------
-Entry script for verifying room module functionality.
+Demo: fusion-aligned snapshot.
+Shows power layout summary and fusion-related thermal loads.
 """
 
-from ship import compute
+from power.bus import describe_layout
+from data.loader import load_yaml
 
+print("Power layout (reactor primary):")
+print(describe_layout("configs/power/bus_layout_v0.yaml"))
 
-def main() -> None:
-    report = compute(
-        "dorm_communal_8",
-        name="Dorm C-12",
-        occupants=8,
-        phase="senior",
-        floor_area_m2=70.0,
-    )
-    print(report)
-
-
-if __name__ == "__main__":
-    main()
+print("\nThermal loads (fusion-related excerpts):")
+tl = load_yaml("configs/thermal/loads.yaml")
+for src in tl.get("sources", []):
+    sid = src.get("id", "")
+    svc = src.get("service", "")
+    if "fusion" in sid or svc.lower() in {"reactor", "propulsion"}:
+        print(f"- {sid}  service={svc}  duty={src.get('duty_profile')}")

@@ -1,13 +1,63 @@
-# Draft bus layout for system integration exercises.
-version: 0
-backbone_voltage_kV: 11
-secondary_voltage_kV: 0.48
-feeders:
-  life_support:
-    breaker_rating_A: 400
-    redundancy: n+1
-  habitation:
-    breaker_rating_A: 250
-    redundancy: n
-notes: |
-  Placeholder values until electrical team provides final single-line diagram.
+# Power bus layout — fusion primary.
+# Structure: generators, buses, converters, loads, protection, startup.
+
+system:
+  generators:
+    - id: "reactor_primary_bus"
+      type: "fusion_reactor_output"
+      nominal_kW: null
+      notes: []
+
+  buses:
+    - id: "reactor_hv_bus"
+      type: "HVDC"
+      voltage: null
+      notes: []
+
+    - id: "aux_lv_bus"
+      type: "LVDC"
+      voltage: null
+      notes: []
+
+  converters:
+    - id: "conv_hv_to_lv"
+      from: "reactor_hv_bus"
+      to: "aux_lv_bus"
+      rating_kW: null
+      notes: []
+
+    - id: "conv_hv_to_propulsion_electronics"
+      from: "reactor_hv_bus"
+      to: "aux_lv_bus"
+      rating_kW: null
+      notes: ["Feeds nozzle coils / power electronics"]
+
+  loads:
+    - id: "env_hvac_pumps"
+      bus: "aux_lv_bus"
+      kW_nominal: null
+      duty: "24x7"
+      notes: []
+
+    - id: "propulsion_nozzle_electronics"
+      bus: "aux_lv_bus"
+      kW_nominal: null
+      duty: "burn_only"
+      notes: []
+
+    - id: "radiator_field_pumps"
+      bus: "aux_lv_bus"
+      kW_nominal: null
+      duty: "24x7"
+      notes: []
+
+  protection_zones:
+    - id: "zone_reactor_bay"
+      includes: []
+      notes: ["Trip logic and isolation for reactor interfaces"]
+
+  startup_paths:
+    - id: "black_start_controls"
+      source: "stored_energy_system"   # e.g., batteries/capacitors
+      targets: ["reactor_controls","coolant_pumps_prestart"]
+      notes: ["Bring up controls before reactor online"]

@@ -15,6 +15,7 @@ Units
 
 from __future__ import annotations
 from typing import Optional
+from common.conversions import C_to_K
 
 # --- Constants (define/confirm) ---------------------------------------------
 
@@ -65,11 +66,18 @@ def latent_heat_vap_kJ_per_kg(T_C: float) -> float:
     """
     Latent heat of vaporization of water at temperature T_C.
 
-    TODO:
-    [ ] Pick a model (e.g., linear approximation or better) and cite.
-    [ ] Verify against 0°C and 100°C anchors.
+
+    https://www.sciencedirect.com/topics/earth-and-planetary-sciences/heat-of-vaporization
+    
+    Valid between melting point and T_K = 323 K
     """
-    return 2450.0  # SKELETON: replace with temperature function
+    T_K = C_to_K(T_C)
+    if T_K > 323:
+        raise ValueError("Temperature out of range for latent_heat_vap_kJ_per_kg")
+    
+    Lat_heat = 1.91846e6 * (T_K / (T_K-33.91))**2  # SKELETON: replace with formula
+    
+    return Lat_heat / 1000.0  # convert J/kg to kJ/kg
 
 
 def air_density_kg_per_m3(

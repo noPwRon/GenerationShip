@@ -12,7 +12,6 @@ Design Notes
 
 TODO (High-level)
 -----------------
-[ ] Move temperature/pressure-dependent numbers into common.physics
 [ ] Thread scenario ambient conditions (T, P, RH) through call sites when needed
 [ ] Add minimal validation (types, >=0) where appropriate
 [ ] Replace placeholder device/latent models with data-driven implementations
@@ -35,22 +34,9 @@ from env.hvac.constants import (
     EXHAUST_KEYS,
     DEFAULT_ACTIVITY_LEVELS,
     DEFAULT_VENTILATION,
-)
-
-# ---------------------------------------------------------------------------
-# Physics constants — CURRENTLY LOCAL to avoid breaking callers.
-# TODO: Replace with functions from common.physics and remove literals here.
-#   - cp_dry_air_J_per_kgK(T_K)
-#   - latent_heat_vap_kJ_per_kg(T_C)
-#   - air_density_kg_per_m3(T_K, P_kPa, RH_frac)
-# from common.physics import cp_dry_air_J_per_kgK, latent_heat_vap_kJ_per_kg, air_density_kg_per_m3  # noqa: E401,F401
-# ---------------------------------------------------------------------------
-AIR_DENSITY_KG_PER_M3 = 1.2  # TODO: deprecate → common.physics.air_density_kg_per_m3
-AIR_HEAT_CAP_KJ_PER_KG_K = (
-    1.0  # TODO: deprecate → common.physics.cp_dry_air_J_per_kgK/1000
-)
-LATENT_HEAT_VAP_KJ_PER_KG = (
-    2450.0  # TODO: deprecate → common.physics.latent_heat_vap_kJ_per_kg
+    AIR_DENSITY_KG_PER_M3,
+    AIR_HEAT_CAP_KJ_PER_KG_K,
+    LATENT_HEAT_VAP_KJ_PER_KG,
 )
 
 

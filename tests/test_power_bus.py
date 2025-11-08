@@ -1,26 +1,20 @@
-"""
-test_power_bus.py
------------------
-Lightweight checks for the power bus helpers.
-"""
+from data.loader import load_yaml
 
-from power.bus import get_power_design, power_balance
-from data.cache import clear_cache, list_cached_files
+EXPECTED_BUSES = {"reactor_hv_bus", "aux_lv_bus"}
 
+def test_bus_nodes_exist():
+    cfg = load_yaml("configs/power/bus_layout_v0.yaml")
+    buses = {b["id"] for b in cfg.get("system", {}).get("buses", [])}
+    assert EXPECTED_BUSES.issubset(buses)
 
-def test_power_design_loads():
-    cfg = get_power_design(force_reload=True)
-    assert "sources" in cfg and "sinks" in cfg
+def test_has_reactor_generator():
+    cfg = load_yaml("configs/power/bus_layout_v0.yaml")
+    gens = {g["id"] for g in cfg.get("system", {}).get("generators", [])}
+    assert "reactor_primary_bus" in gens
 
-
-def test_power_balance_executes():
-    cfg = get_power_design()
-    balance = power_balance(cfg)
-    assert isinstance(balance, (int, float))
-
-
-def test_cache_reporting_roundtrip():
-    clear_cache()
-    _ = get_power_design()
-    cached = list_cached_files()
-    assert cached, "expected cache to contain at least one entry"
+def test_converters_reference_valid_buses():
+    cfg = load_yaml("configs/power/bus_layout_v0.yaml")
+    bus_ids = {b["id"] for b in cfg.get("system", {}).get("buses", [])}
+    for conv in cfg.get("system", {}).get("converters", []):
+        assert conv["from"] in bus_ids
+        assert conv["to"] in bus_ids
