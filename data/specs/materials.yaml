@@ -1,20 +1,20 @@
 # materials.yaml
 # ------------------------------------------------------------
-# Material properties for structural, internal, and shielding components.
+# Combined material properties for structural, thermal, interior, and shielding components.
 # Units:
-#   - density_kg_per_m3:  kg/m³
-#   - specific_heat_J_per_kgK: J/(kg·K)
-#   - thermal_conductivity_W_per_mK: W/(m·K)
+#   - density_kg_per_m3:  kg/m^3
+#   - specific_heat_J_per_kgK: J/(kg*K)
+#   - thermal_conductivity_W_per_mK: W/(m*K)
 # ------------------------------------------------------------
 
 version: 1
 notes: >
-  Reference material library for structural and internal systems.
-  Used to calculate mass, thermal inertia, and shielding performance.
-  Expand as the ship’s design matures.
+  Reference material library for the Generation Ship project. Used to calculate
+  mass, thermal inertia, and shielding performance.
 
 materials:
   aluminum_alloy_6061:
+    domain: ["structure"]
     density_kg_per_m3: 2700
     specific_heat_J_per_kgK: 896
     thermal_conductivity_W_per_mK: 167
@@ -22,6 +22,7 @@ materials:
     notes: "Common structural alloy; used for frame and bulkheads."
 
   composite_carbon_polymer:
+    domain: ["structure", "interior"]
     density_kg_per_m3: 1600
     specific_heat_J_per_kgK: 1200
     thermal_conductivity_W_per_mK: 5
@@ -29,16 +30,82 @@ materials:
     notes: "Lightweight hull panels and rotating components."
 
   polyethylene_shield:
+    domain: ["shielding"]
     density_kg_per_m3: 950
     specific_heat_J_per_kgK: 1900
     thermal_conductivity_W_per_mK: 0.5
     notes: "Hydrogen-rich; effective for cosmic radiation attenuation."
 
   regolith_brick:
+    domain: ["structure", "shielding"]
     density_kg_per_m3: 2200
     specific_heat_J_per_kgK: 840
     thermal_conductivity_W_per_mK: 1.0
     notes: "In-situ resource fabrication material."
+
+  Al2219-T87:
+    domain: ["structure"]
+    density_kg_per_m3: 2840
+    yield_strength_MPa: 370
+    ultimate_strength_MPa: 450
+    elastic_modulus_GPa: 73
+    poisson: 0.33
+    fracture_toughness_MPa_sqrtm: 28
+    weld_efficiency: 0.9
+    temperature_derating:
+      rule: "Follow MMPDS-17 high-temperature knockdown for 2219-T87 plate"
+      notes:
+        - "Apply 150 C allowable multiplier ~0.90; 200 C ~0.77"
+    citations:
+      - "MMPDS-17, Sec. 2.3.3 Aluminum Alloy 2219-T87 (plate), Battelle/FAA"
+
+  CFRP_UD:
+    domain: ["structure"]
+    density_kg_per_m3: 1580
+    elastic_modulus_GPa: { L: 161, T: 9 }
+    strength_MPa: { tension_L: 2760, compression_L: 1600, tension_T: 70, compression_T: 200 }
+    poisson: { L_T: 0.32, T_T: 0.46 }
+    laminate_guides:
+      layups: []
+    citations:
+      - "CMH-17-3G, Vol. 3, Carbon/Epoxy UD (IM7/8552) engineering allowables"
+
+  Ti6Al4V:
+    domain: ["structure"]
+    density_kg_per_m3: 4430
+    yield_strength_MPa: 1100
+    elastic_modulus_GPa: 114
+    citations:
+      - "MMPDS-17, Sec. 8.1 Titanium Alloy Ti-6Al-4V (solution treated and aged)"
+
+  NiAlloy_HighT_placeholder:
+    domain: ["structure"]
+    density_kg_per_m3: 8190
+    yield_strength_MPa: 1030
+    ultimate_strength_MPa: 1240
+    elastic_modulus_GPa: 200
+    temperature_derating:
+      rule: "NASA TM-2000-209359 Inconel 718 high-temperature strength reduction"
+      notes: []
+    citations:
+      - "NASA/TM-2000-209359, High-Temperature Tensile Properties of Inconel 718"
+
+  Borated_Poly_Shield:
+    domain: ["shielding"]
+    density_kg_per_m3: 1050
+    attenuation_notes:
+      - "Macroscopic removal cross-section 0.1-0.12 cm^-1 for thermal neutrons (boron-loaded)"
+    temperature_limit_C: 90
+    citations:
+      - "IAEA-TECDOC-1360, Neutron Attenuation Data for Borated Polyethylene"
+
+  Water_Tank_Shield:
+    domain: ["shielding", "thermal"]
+    density_kg_per_m3: 1000
+    structural_notes:
+      - "Use as shielding mass near reactor bay"
+    citations:
+      - "IAEA Safety Reports Series No. 33, Radiation Transport for Shielding Design (water attenuation)"
 
 categories:
   structural:

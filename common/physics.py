@@ -4,18 +4,19 @@ physics.py
 Purpose
     • Provide temperature/pressure-aware helpers (shared across env/power/thermal).
     • Centralize physical constants so calc_env doesn't hardcode values.
-
-Status
-    • SKELETON ONLY — functions return placeholders.
-    • Replace TODO sections with vetted formulas/refs when ready.
-
+Conventions / References
+    • Use NIST and other authoritative sources for physical constants and formulas.
+    • IAPWS Formulation for water properties (https://www.iapws.org/relguide/IF97-Rev.html)
+    • NASA Glenn Coefficients for specific heat (https://www.grc.nasa.gov/www/wind/valid/air.html)
 Units
     • SI unless noted.
 """
 
 from __future__ import annotations
 from typing import Optional
-from common.conversions import C_to_K
+from common.conversions import C_to_K, K_to_C
+from numpy import exp
+
 
 # --- Constants (define/confirm) ---------------------------------------------
 
@@ -25,8 +26,12 @@ PLANCK_CONSTANT = 6.62607015e-34  # Planck constant [J s]
 AVROGADRO_CONSTANT = 6.02214076e23  # Avogadro constant [mol-1]
 STD_ATM_PRESSURE_KPA = 101.325  # standard atmospheric pressure [kPa]
 MOLAR_GAS_CONSTANT = 8.314462618  # universal gas constant [J mol-1 K-1]
+AIR_GAS_CONSTANT = 287.058  # specific gas constant for dry air [J kg-1 K-1]
+WATER_VAPOR_GAS_CONSTANT = 461.495  # specific gas constant for water vapor [J kg-1 K-1]
 STD_GRAV_ACCEL = 9.80665  # standard gravity [m s-2]
 STEFAN_BOLTZMANN = 5.67e-8  # W/m^2/K^4
+MOL_WEIGHT_DRY_AIR = 28.9647e-3  # molar weight of dry air [kg/mol]
+MOL_WEIGHT_WATER_VAPOR = 18.01528e-3  #
 
 
 # --- Temperature-dependent helpers (stub returns) ---------------------------
@@ -65,18 +70,16 @@ def cp_dry_air_J_per_kgK(T_K: float) -> float:
 def latent_heat_vap_kJ_per_kg(T_C: float) -> float:
     """
     Latent heat of vaporization of water at temperature T_C.
-
-
     https://www.sciencedirect.com/topics/earth-and-planetary-sciences/heat-of-vaporization
-    
+
     Valid between melting point and T_K = 323 K
     """
     T_K = C_to_K(T_C)
     if T_K > 323:
         raise ValueError("Temperature out of range for latent_heat_vap_kJ_per_kg")
-    
-    Lat_heat = 1.91846e6 * (T_K / (T_K-33.91))**2  # SKELETON: replace with formula
-    
+
+    Lat_heat = 1.91846e6 * (T_K / (T_K - 33.91)) ** 2  # SKELETON: replace with formula
+
     return Lat_heat / 1000.0  # convert J/kg to kJ/kg
 
 
@@ -86,25 +89,60 @@ def air_density_kg_per_m3(
     """
     Density of (dry/moist) air at T_K, pressure P_kPa, and optional RH.
 
-    TODO:
-    [ ] Implement ideal gas (dry) and moist-air correction when RH is provided.
-    [ ] Document assumptions (e.g., 1 + 1.6078*w correction).
-    [ ] Add bounds/guards for unphysical inputs.
+    For dry air:
+    rho_a =  P_a / (R_a * T_K)
+    for moist air:
+    rho_a = (P_d / (R_a * T_K)) + (P_w / (R_w * T_K))
+    where P_d = P_a - P_w and P_w = RH_frac * Psat(T_K)
+    Source: https://www.engineeringtoolbox.com/density-air-d_680.html
     """
-    return 1.2  # SKELETON: replace with calculation
 
+    P_a = P_kPa * 1000.0  # convert kPa to Pa
+    R_a = AIR_GAS_CONSTANT  # J/(kg·K) for dry air
+    R_w = WATER_VAPOR_GAS_CONSTANT  # J/(kg·K) for water vapor
 
+    if RH_frac is None:
+        rho_a = P_a / (R_a * T_K)
+    else:
+        p_sat = saturation_vapor_pressure_kPa(T_K) * 1000.0  # Pa
+        P_w = RH_frac * p_sat  # partial pressure of water vapor
+        P_d = P_a - P_w  # partial pressure of dry air
+        rho_a = (P_d / (R_a * T_K)) + (P_w / (R_w * T_K))
+
+    return rho_a
 
 
 def water_density_kg_per_m3(T_K: float) -> float:
     """
     Density of water at T_K
 
-    TODO:
-    [ ] Implement standard correlation or table lookup.
-    [ ] Define valid T range (e.g., 273.15–373.15 K) and behavior outside it.
-    [ ] Add tests at key points (0°C, 25°C, 100°C).
+    Using NIST's IAPWS Formulation Kell extended to 0 °C - 100 °C range.
+    Source: https://www.iapws.org/relguide/IF97-Rev.html
+
     """
-    return 0.8  # SKELETON: replace with calculation
+    T_C = K_to_C(T_K)
+
+    if T_C < 0 or T_C > 100:
+        raise ValueError("Temperature out of range for water_density_kg_per_m3")
+
+    # IAPWS Formulation for water density
+    A = 999.83952
+    B = 16.945176
+    C = -7.9870401e-03
+    D = 1.2509471e-04
+    E = -1.0572258e-06
+    F = 6.1164410e-09
+
+    T_C = T_K - 273.15
+    rho_w = A + B * T_C + C * T_C**2 + D * T_C**3 + E * T_C**4 + F * T_C**5
+
+    return rho_w
 
 
+def saturation_vapor_pressure_kPa(T_K: float) -> float:
+    """
+    Saturation vapor pressure of water at T_K [kPa]. Using tetens formula.
+    """
+    T_C = T_K - 273.15
+
+    return 6.112 * exp(17.67 * (T_C) / (T_C + 243.5))

@@ -1,0 +1,80 @@
+# Maintenance policy set: PM templates, EOL routes, skills matrix.
+# Fusion-aligned: adds reactor/nozzle policies in addition to existing HVAC examples.
+
+pm_templates:
+  hvac_blower_pm_v1:
+    applies_to: ["hvac_blower_v2"]
+    interval_hours: null
+    steps: ["clean_intake", "balance_impeller", "lube_bearings"]
+    required_parts:
+      bearing_6001: 2
+    required_skills: ["tech_mech_lvl1"]
+    downtime_hours: null
+    citations:
+      - "TODO: vendor PM guide"
+
+  fusion_core_pm_v1:
+    applies_to: ["fusion_core"]
+    interval_hours: null
+    steps: ["inspect_shielding", "coolant_loop_checks", "sensor_calibration"]
+    required_parts: {}
+    required_skills: ["tech_reactor_lvl2"]
+    downtime_hours: null
+    citations: ["TODO: reactor PM reference"]
+
+  magnetic_nozzle_pm_v1:
+    applies_to: ["magnetic_nozzle"]
+    interval_hours: null
+    steps: ["coil_integrity_check", "power_electronics_inspection"]
+    required_parts: {}
+    required_skills: ["tech_reactor_lvl1"]
+    downtime_hours: null
+    citations: []
+
+eol_routes:
+  refurb_blower_v2_v1:
+    route: "refurb"
+    applies_to: ["hvac_blower_v2"]
+    outputs:
+      refurb:
+        new_type_id: "hvac_blower_v2_refurb"
+        expected_life_hours: null
+    constraints: ["no_impeller_cracks", "housing_intact"]
+    citations: ["TODO: internal refurb SOP"]
+
+  dismantle_blower_v2_v1:
+    route: "dismantle"
+    applies_to: ["hvac_blower_v2"]
+    outputs:
+      dismantle:
+        materials_out:
+          copper_kg: null
+          steel_kg: null
+          polymer_kg: null
+    constraints: ["tooling_TQ7_required"]
+
+  refurb_fusion_core_v1:
+    route: "refurb"
+    applies_to: ["fusion_core"]
+    outputs:
+      refurb:
+        new_equipment_id: "fusion_core_refurb"
+        expected_life_hours: null
+    constraints: ["activation_limits", "materials_clearance"]
+    citations: []
+
+skills_matrix:
+  tech_mech_lvl1:
+    description: "Mechanical technician, basic PM"
+    training_hours: null
+    certs: []
+
+  tech_reactor_lvl1:
+    description: "Reactor zone technician (non-critical systems)"
+    training_hours: null
+    certs: []
+
+  tech_reactor_lvl2:
+    description: "Reactor maintenance specialist"
+    training_hours: null
+    certs: []

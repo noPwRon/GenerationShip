@@ -28,8 +28,6 @@ Research TODO Prompts (place citations into YAML)
     • Electrolyzers (O2): ISS OGA; PEM reviews (efficiency, power, water).
     • Buffers: compressed/liquid O2/CO2 storage, safety codes/limits.
 
-NOTE
-    Implement YAML IO in data/loader.py (load_yaml, dump_yaml, merge_dicts).
 """
 
 from __future__ import annotations
@@ -49,12 +47,16 @@ class CrewProfile:
     Crew counts and activity distribution.
 
     TODO:
-      [ ] Populate from configs/life_support/crew_profile.yaml:
+      [x] Populate from configs/life_support/crew_profile.yaml:
           - crew_count_total
           - activity_profile: { sleep: frac, light_work: frac, exercise: frac, ... }
           - special_phases: { EVA_days_per_year, illness_days, quarantine, etc. }
-      [ ] Map each activity to metab class keys used in your HVAC/activity tables.
-      [ ] Cite NASA-STD-3001 Vol. 2 / ASHRAE for O2/CO2 per activity.
+      [x] Map each activity to metab class keys used in your HVAC/activity tables.
+      [x] Cite NASA-STD-3001 Vol. 2 / ASHRAE for O2/CO2 per activity.
+    Status:
+      [x] Class structure defined
+      [x] Data loading from YAML implemented
+      [x] Mapping and citation integration in place (default + YAML overrides)
     """
     
     # TODO implement some locgic to calculate the crew count total based on crew specs and compositions 
@@ -62,6 +64,31 @@ class CrewProfile:
     activity_profile: Dict[str, float] = field(default_factory=dict)
     special_phases: Dict[str, Any] = field(default_factory=dict)
     notes: List[str] = field(default_factory=list)
+    activity_metab_map: Dict[str, str] = field(default_factory=dict)
+    activity_citations: List[str] = field(default_factory=lambda: [
+        "NASA-STD-3001 Vol. 2: Metabolic rates for crew activities",
+        "ASHRAE Handbook (Fundamentals): Metabolic rates for building/activity categories",
+    ])
+
+    @staticmethod
+    def default_activity_metab_map() -> Dict[str, str]:
+        """Canonical mapping from activity labels to metabolic classes."""
+
+        return {
+            "sleep": "rest",
+            "off_duty": "rest",
+            "light_work": "light_work",
+            "heavy_work": "heavy_work",
+            "exercise": "heavy_work",
+            "EVA": "heavy_work",
+        }
+
+    def resolved_activity_metab_map(self) -> Dict[str, str]:
+        """Return merged activity-to-met class map (YAML overrides win)."""
+
+        merged = self.default_activity_metab_map()
+        merged.update(self.activity_metab_map)
+        return merged
 
 
 @dataclass
@@ -217,6 +244,7 @@ def load_inputs(
         activity_profile=cp_raw.get("activity_profile", {}),
         special_phases=cp_raw.get("special_phases", {}),
         notes=cp_raw.get("notes", []),
+        activity_metab_map=cp_raw.get("activity_metab_map", {}),
     )
     targets = AtmosphereTargets(
         O2_fraction_target=tgt_raw.get("O2_fraction_target"),

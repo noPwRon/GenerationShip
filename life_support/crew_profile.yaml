@@ -3,27 +3,27 @@
 # Crew counts, activity distribution, and special operating phases.
 # Used by air_cycle_design.estimate_crew_gas_budget() to derive daily O2/CO2 demand.
 
-crew_count_total: 0  # TODO: number of active humans aboard (baseline crew)
+crew_count_total: 2000  # baseline active humans aboard
 
 activity_profile:
   # Fractions of a 24-hour day or normalized proportions (sum ≈ 1.0)
-  sleep: null          # TODO: fraction of day (e.g., 0.33)
-  light_work: null     # TODO: fraction of day (desk/maintenance)
-  exercise: null       # TODO: fraction of day (scheduled physical training)
-  heavy_work: null     # TODO: optional (EVA prep, manual labor)
-  off_duty: null       # TODO: leisure, reduced activity
-  # TODO: add more categories as needed (e.g., medical, EVA recovery)
+  sleep: 0.33          # ~8 hours per person per day
+  light_work: 0.25     # ~6 hours desk/maintenance/monitoring on average
+  exercise: 0.04       # ~1 hour scheduled physical training
+  heavy_work: 0.03     # ~45 minutes equivalent; only a subset in heavy tasks at any time
+  off_duty: 0.35       # ~8.5 hours leisure, meals, hygiene, low-activity time
 
 special_phases:
-  EVA_days_per_year: null         # TODO: number of EVA days per person per year
-  quarantine_days_per_year: null  # TODO: number of days under isolation
-  illness_fraction: null          # TODO: fraction of time with reduced capacity
-  demographics:                   # optional, for long-term balance
-    children_frac: null
-    adults_frac: null
-    elders_frac: null
+  EVA_days_per_year: 2           # avg EVA exposure days per person per year (heavily skewed to certain roles)
+  quarantine_days_per_year: 1    # planned isolation days (return-from-EVA, medical observation, etc.)
+  illness_fraction: 0.02         # ~2% of time population is at reduced metabolic capacity (minor illness load)
+  demographics:
+    children_frac: 0.13          # <16; future workforce, reduced metabolic average
+    adults_frac: 0.77            # 16–60; primary metabolic design driver
+    elders_frac: 0.10            # >60; slightly reduced activity but near-adult metabolism
 
 notes:
-  - "TODO: cite NASA-STD-3001 Vol. 2 for metabolic O2 consumption / CO2 production."
-  - "TODO: list assumptions for crew age, size, and daily schedule."
-  - "TODO: link each activity level to HVAC/activity rate table keys (rest, light_work, etc.)."
+  - "Metabolic O2 consumption / CO2 production to be derived from NASA-STD-3001 Vol. 2 tables for rest/light/heavy work and exercise levels."
+  - "Assume typical crew body-mass distribution for long-duration missions (adults dominant; children and elders as given in demographics) when selecting reference metabolic rates."
+  - "Daily schedule aligned with three-shift operations: ~8 h sleep, ~6 h operational work, ~1 h exercise, remainder split between heavy tasks (for a subset) and off-duty/leisure."
+  - "Activity level keys (sleep, light_work, exercise, heavy_work, off_duty) map directly to HVAC/activity rate tables: rest → sleep/off_duty (low), light_work → standard duty, heavy_work → peak duty, exercise → scheduled high-intensity periods."

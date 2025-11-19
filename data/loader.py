@@ -47,9 +47,9 @@ def load_power_design(
 
 
 def load_materials(
-    *, path: str | Path = "specs/materials.yaml", force_reload: bool = False
+    *, path: str | Path = _DATA_ROOT / "specs/materials.yaml", force_reload: bool = False
 ) -> Dict[str, Any]:
-    """Load materials library for thermal analysis."""
+    """Load combined materials library for structural, thermal, and shielding uses."""
 
     return load_yaml(path, force_reload=force_reload)
 

@@ -25,6 +25,9 @@ DEFAULT_ACTIVITY_LEVELS = {
     "rest": {"sensible_W_per_person": 80.0, "latent_W_per_person": 35.0},
     "light_work": {"sensible_W_per_person": 110.0, "latent_W_per_person": 60.0},
     "moderate_work": {"sensible_W_per_person": 150.0, "latent_W_per_person": 130.0},
+    # Heavy work ~4 met (~420 W total) per ASHRAE Fundamentals 2021, Table of Human Metabolic Rates.
+    # Sensible/latent split approximated from ASHRAE task data.
+    "heavy_work": {"sensible_W_per_person": 220.0, "latent_W_per_person": 200.0},
 }
 
 DEFAULT_VENTILATION = {
