@@ -30,7 +30,7 @@ class HygieneBlock(RoomCalculator):
 
     @staticmethod
     def compute(spec: RoomSpec) -> RoomReport:
-        rates = get_rates("HygieneBlock", activity="moderate_work")
+        rates = get_rates("hygiene_block", activity="moderate_work")
 
         ventilation_lps = calc_env.ventilation_rate(
             occupants=spec.occupants,

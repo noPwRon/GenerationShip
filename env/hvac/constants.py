@@ -35,6 +35,11 @@ DEFAULT_VENTILATION = {
     "Ra_Lps_per_m2": 0.3,
 }
 
+# Physical reference baselines (placeholder values until tied to common.physics)
+AIR_DENSITY_KG_PER_M3 = 1.2
+AIR_HEAT_CAP_KJ_PER_KG_K = 1.006
+LATENT_HEAT_VAP_KJ_PER_KG = 2450.0
+
 # Optional normalized output keys (shared label names)
 KEY_SUPPLY = "supply_Lps"
 KEY_EXHAUST = "exhaust_Lps"
