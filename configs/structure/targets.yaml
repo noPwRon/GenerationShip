@@ -1,42 +1,85 @@
-# Policies, safety factors, and layout preferences for structure.
-# Fusion-aligned: includes reactor bay integration policies.
+# Structure design targets, safety factors, and layout policy.
+# All geometry values are PLACEHOLDERS — to be refined as hull volume,
+# population, and subsystem mass budgets are established.
+#
+# Gravity design decision:
+#   Habitat rings rotate to generate centrifugal pseudo-gravity in life support zones.
+#   Fusion thrust provides propulsion only — not used as primary gravity source.
 
+# --- Placeholder hull geometry -------------------------------------------
+hull_geometry:
+  outer_radius_m: 100.0         # placeholder — refine from habitat volume analysis
+  skin_thickness_mm: 15.0       # placeholder — refine from hull_stress analysis
+  overall_length_m: null        # TBD — drives stringer/ring count and total mass
+  design_internal_pressure_kPa: 101.325   # 1 atm standard cabin pressure
+  notes:
+    - "Radius chosen to give ~3 rpm for 1 g centrifugal at the ring wall (ω = √(g/r))"
+    - "TODO: iterate radius once habitat volume per crew is established"
+
+# --- Rotating ring geometry ----------------------------------------------
+habitat_ring:
+  ring_radius_m: 100.0          # placeholder — same as hull outer radius for now
+  target_gravity_g: 1.0         # fraction of standard gravity at ring wall
+  target_rpm_max: 3.0           # upper tolerance; above ~3-6 rpm causes motion sickness
+  notes:
+    - "TODO: verify rpm tolerance against NASA-STD-3001 Vol 1 human factors limits"
+    - "TODO: refine ring radius once deck layout and room heights are fixed"
+
+# --- Propulsion / thrust load --------------------------------------------
+propulsion:
+  design_thrust_kN: 500.0       # placeholder — theoretical fusion drive; no model yet
+  drive_type: "fusion_continuous"
+  notes:
+    - "Thrust used for axial hull stress calculation only — not gravity source"
+    - "TODO: replace with THRUM-derived thrust figure when propulsion model exists"
+    - "TODO: cite fusion drive reference (e.g., Project Longshot, VISTA ICF study)"
+
+# --- Safety factors ------------------------------------------------------
+# Defaults from NASA-STD-5001B Table 1 (metallic crewed spacecraft structure).
+# TODO: verify each factor against your chosen design standard and material.
+# TODO: review ECSS-E-ST-32-10C for ESA equivalents if applicable.
 safety_factors:
-  yield: null            # TODO
-  ultimate: null
-  buckling: null
-  fatigue: null
-  joints_efficiency_min: null
+  yield: 1.25
+  ultimate: 1.50
+  buckling: 1.50        # applied to critical load; separate knockdown factors (KDF) also apply
+  fatigue: 4.0          # safe-life design for crewed structure
+  joints_efficiency_min: 0.85   # conservative default; verify against joint design
+  citations:
+    - "NASA-STD-5001B, Structural Design and Test Factors of Safety for Spaceflight Hardware (2016), Table 1"
+    - "TODO: verify buckling KDF against NASA SP-8007 (General Instability of Cylinders)"
+    - "TODO: verify fatigue factor against your crack-growth / safe-life methodology"
 
+# --- Member families -----------------------------------------------------
 member_families:
   rings:
-    default_material: "Al2219-T87"   # key into materials book
-    sections: []                     # e.g., ["I_web_200", "box_120x60x4"]
+    default_material: "Al2219-T87"
+    sections: []
   stringers:
     default_material: "CFRP_UD"
     sections: []
   skins:
     default_material: "Al2219-T87"
-    min_thickness_mm: null
+    min_thickness_mm: null    # derived by hull_stress.py
   bulkheads:
     default_material: "Al2219-T87"
     concepts: []
 
+# --- Segmentation --------------------------------------------------------
 segmentation:
-  frame_spacing_m: null
+  frame_spacing_m: null     # TBD — drives buckling inter-frame analysis
   ring_pitch_m: null
   stringer_pitch_m: null
   bulkhead_pitch_m: null
+  notes:
+    - "TODO: derive spacing from buckling analysis once skin thickness is set"
 
+# --- Joints --------------------------------------------------------------
 joints:
-  philosophy: null        # "riveted", "welded", "bonded", "hybrid"
+  philosophy: null
   fastener_family: null
   adhesive_family: null
 
-notes:
-  - "TODO: cite structural design bases and company/mission policy."
-
-# --- Fusion reactor bay policies ---
+# --- Reactor bay integration ---------------------------------------------
 reactor_bay:
   radiation_exclusion_zones:
     - id: "reactor_cone"
@@ -45,7 +88,7 @@ reactor_bay:
   inspection_clearances_mm:
     service: null
     removal: null
-  joints_philosophy: "TODO"   # e.g., "bolted + expansion joints", "sliding shoes"
+  joints_philosophy: "TODO"
   materials_preference: ["NiAlloy_HighT_placeholder", "Ti6Al4V"]
   citations:
     - "TODO: reactor integration guidelines"
