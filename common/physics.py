@@ -34,7 +34,7 @@ PLANCK_CONSTANT = Q(6.62607015e-34, "J * s")  # Planck constant [J s]
 AVROGADRO_CONSTANT = Q(6.02214076e23, "1/mole")  # Avogadro constant [mol-1]
 
 
-STD_ATM_PRESSURE_KPA = 101.325  # standard atmospheric pressure [kPa]
+STD_ATM_PRESSURE_KPA = Q(101.325, "kPa")  # standard atmospheric pressure [kPa]
 MOLAR_GAS_CONSTANT = 8.314462618  # universal gas constant [J mol-1 K-1]
 AIR_GAS_CONSTANT = 287.058  # specific gas constant for dry air [J kg-1 K-1]
 WATER_VAPOR_GAS_CONSTANT = 461.495  # specific gas constant for water vapor [J kg-1 K-1]
