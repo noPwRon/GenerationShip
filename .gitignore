@@ -1,0 +1,71 @@
+# --- Python bytecode & caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# --- Virtual environments ---
+# NOTE: do NOT add env/ here — it is a source directory in this project
+.venv/
+.venv*/
+venv/
+.conda/
+
+# --- uv / pip tooling ---
+.uv/
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+
+# --- Test & coverage artefacts ---
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.mypy_cache/
+
+# --- Runtime outputs & scratch ---
+*.log
+logs/
+outputs/
+results/
+runs/
+artifacts/
+temp/
+tmp/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Editors ---
+# VS Code: track settings.json (contains workspace interpreter path)
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# Vim/Emacs swap files
+*.swp
+*.swo
+*.bak
+*.orig
+
+# --- Documentation builds ---
+site/
+docs/_build/
+
+# --- Preserve empty tracked directories ---
+!.gitkeep
