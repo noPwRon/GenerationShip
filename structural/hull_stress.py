@@ -352,6 +352,10 @@ def run_hull_stress_analysis(
       [ ] Return structured dict matching a future output schema
       [ ] Add a summary flag: overall_pass: bool
     """
+    
+    omega_rad_s = angular_velocity_rad_s()
+    
+    
     return {
         "omega_rad_s": None,
         "sigma_hoop_pressure_Pa": None,

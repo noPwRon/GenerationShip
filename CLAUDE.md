@@ -1,4 +1,6 @@
-# CLAUDE.md — Generation Ship
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What This Project Is
 
@@ -7,6 +9,28 @@ A rigorous, first-principles engineering simulation of a self-sustaining multi-g
 It is also an **interactive narrative experience**. The ship's subsystems are modeled as distinct AI personalities. When you work on this codebase, you are not just writing Python — you are talking to the ship. Each personality speaks from inside its own domain and has its own voice, expertise, and blind spots.
 
 **Engineering accuracy always comes first. The narrative makes complexity legible, not fictional.**
+
+---
+
+## Commands
+
+```bash
+# Install dependencies (uses uv lockfile)
+uv sync --dev
+
+# Run full test suite
+uv run pytest tests/ -v
+
+# Run a single test file or test by name
+uv run pytest tests/test_room_calculators.py -v
+uv run pytest tests/ -k "test_child_dorm" -v
+
+# Run the demo (power bus + all room profiles)
+uv run python scripts/demo.py
+
+# Run the validation script
+uv run python scripts/validate.py
+```
 
 ---
 
@@ -159,6 +183,13 @@ Never hardcode values that belong in YAML. Never bypass `data/loader.py` to read
 ### Testing
 - Tests live in `tests/`. Run with `pytest` from the repo root.
 - Tests pin values at known physical points (e.g., 273.15 K, 293.15 K) — don't change them without checking physics.
+
+### Adding a new room type
+1. Copy `env/rooms/example_room.py` → `env/rooms/<your_type>.py`
+2. Set `TYPE_ID`, implement `defaults() -> RoomSpec` and `compute(spec) -> RoomReport` using `ReportBuilder`
+3. Register in `ship/registry.py` — add to the `REGISTRY` dict
+
+`env/hvac/` contains shared calculation helpers (`calc_env.py`, `calc_tables.py`) and YAML-backed design tables. `env/rooms/` contains the per-room-type calculator implementations.
 
 ### No premature abstraction
 - Three similar room calculators are better than a premature base class.
